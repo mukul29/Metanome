@@ -1,23 +1,13 @@
-.project
+# Build output
 target/
-/.settings
-*/.settings
-*/*/.settings
-/results
-*.releaseBackup
-release.properties
-/.idea
+
+# IDEs
+.idea/
 *.iml
-/target
-*/target
-*/*/target
-*.log
-*.lck
-metanomedb.properties
-metanomedb.script
-/metanomedb.tmp
+.project
 .classpath
-*.paw
-config.js
-build.out
+.settings/
+
+# OS and tools
 .DS_Store
+*.log

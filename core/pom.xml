@@ -1,0 +1,84 @@
+<!--
+Copyright 2026 by the Metanome Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.metanome</groupId>
+        <artifactId>metanome-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>metanome</artifactId>
+
+    <name>Metanome</name>
+    <description>The Metanome library that data profiling algorithms build against.</description>
+
+    <properties>
+        <lombok.version>1.18.48</lombok.version>
+        <junit.version>6.1.3</junit.version>
+    </properties>
+
+    <dependencies>
+        <!-- Compile time only: provided keeps Lombok out of the jar, so Metanome ships no runtime dependencies. -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.16.0</version>
+                <configuration>
+                    <!-- Register Lombok explicitly: JDK 23+ no longer picks up annotation processors from the classpath. -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <!-- Full javac warnings; "processing" is excluded because it only flags annotations no processor claims (e.g. JUnit's). -->
+                        <arg>-Xlint:all,-processing</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- Pinned so JUnit 5 tests run on any Maven: Maven 3.8 and older default to surefire 2.12.4, which finds none. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.6.0</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>
